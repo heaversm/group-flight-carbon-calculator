@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-Company Event Carbon Emissions Estimate</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <div class="instructions-container">
+      <details>
+        <summary>Instructions</summary>
+        <p><strong>Destination Airport:</strong>Enter the 3 letter airport code where members of your list will be flying to</p>
+        <p><strong>List Mode:</strong>Select from one of the following list modes:</p>
+          <ul>
+            <li><strong>Org Chart</strong>: A valid .json file array with the structure: <pre><code>[{"location":"MY_LOCATION"},{"location":"MY_SECOND_LOCATION"},...]</code></pre> </li>
+            <li><strong>Locations</strong>: A .txt file with one location per line. The system will look up the closest airport for carbon calculation</li>
+            <li><strong>Airports</strong>: A .txt file with one 3 letter airport code per line</li>
+            <li><strong>Direct Input</strong>: Paste your 3 letter airport codes for which you want to calculate carbon below</li>
+          </ul>
+        </p>
+        <p><strong>Assumptions:</strong>Carbon calculations assume round-trip, non-stop, flying solo, and flying economy class.</p>
+        <p><strong>Request Limit:</strong> I am currently limiting the number of requests due to API overage costs if I exceed my quota.</p>
+        <div id="post-load-container"></div>
+      </details>
+    </div>
+    <div class="status-container">
+      <h3>Status:</h3>
+      <p id="status"></p>
+    </div>
+
+    <div class="destination-airport-container">
+      <h3>Destination Airport Code</h3>
+      <input type="text" id="destination-airport" placeholder="JFK">
+      <button id="destination-airport-submit">Submit</button>
+    </div>
+    
+    <div id="file-mode-container" style="display: none;">
+      <h3>List Mode:</h3>
+      <select name="file-mode" id="filemode" name="filemode">
+        <option value="" selected>Select:</option>
+        <option value="orgChart">Org Chart</option>
+        <option value="locations">Locations</option>
+        <option value="airports">Airports</option>
+        <option value="input">Direct Input</option>
+      </select>
+      
+    </div>
+    <div class="file-container" style="display: none;">
+      <h3>File:</h3>
+      <input type="file" id="file" name="file" />
+    </div>
+    <div class="input-container" style="display: none;">
+      <h3>Direct Input</h3>
+      <p>Paste in the airport codes below for which you want to calculate carbon, one 3 letter airport code per line.</p>
+      <textarea name="input" id="input" cols="30" rows="10"></textarea><br/>
+      <button id="direct-input-submit">Submit</button>
+    </div>
+    <div class="stats-container">
+      <div id="stat-container-location" class="stat-container">
+          <h3 class="stats-title"># of Found Locations:</h3>
+          <p id="found-locations" class="stats-output"></p>
+          <details class="notfound-container">
+            <summary class="details-summary">People with no location</summary>
+            <ul id="no-location" class="stats-list"></ul>
+          </details>
+      </div>
+      <div id="stat-container-coords" class="stat-container">
+        <h3 class="stats-title"># of Found Coordinates:</h3>
+        <p id="found-coords" class="stats-output"></p>
+        <details class="notfound-container">
+          <summary class="details-summary">Locations with no coordinates</summary>
+          <ul id="no-coords" class="stats-list"></ul>
+        </details>
+      </div>
+      <div id="stat-container-airports" class="stat-container">
+          <h3 class="stats-title"># of Found Airports:</h3>
+          <p id="found-airports" class="stats-output"></p>
+          <details class="notfound-container">
+            <summary class="details-summary">Locations with no airport found</summary>
+            <ul id="no-airport" class="stats-list"></ul>
+          </details>
+      </div>
+      <div id="stat-container-carbon" class="stat-container">
+        <h3 class="stats-title">Total Carbon:</h3>
+        <p id="found-carbon" class="stats-output"></p>
+        <details class="notfound-container">
+          <summary class="details-summary">Airports with no carbon data</summary>
+          <ul id="no-carbon" class="stats-list"></ul>
+        </details>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
