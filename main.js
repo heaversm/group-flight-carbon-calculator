@@ -197,7 +197,7 @@ async function getCO2FromAirport(airportData) {
                 true
               );
               totalCO2e = (totalCO2e * 2).toFixed(2);
-              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of ${totalCO2e} kilograms of CO2 emissions round trip, non-stop, economy class`;
+              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight">${totalCO2e}</span> kilograms of CO2 emissions round trip, non-stop, economy class`;
               resolve(totalCO2e);
             }
           });
@@ -256,7 +256,9 @@ const getCarbonFromOrgChart = function (json) {
       return getCO2FromAirport(airportData);
     })
     .then((co2Data) => {
-      postStatusMessage(`These flights will result in ${co2Data} kg of CO2`);
+      postStatusMessage(
+        `These flights will result in ${co2Data} kg of CO2 round trip, non-stop, economy class`
+      );
       console.log(co2Data);
     });
 };
@@ -320,19 +322,21 @@ const handleFileModeJson = function (text) {
       getCarbonFromOrgChart(json);
     }
   } else {
-    postStatusMessage("No valid data found in JSON file");
+    postStatusMessage("No valid data found in JSON file", true);
     console.log("invalid or empty json");
   }
 };
 
-const postStatusMessage = function (message) {
+const postStatusMessage = function (message, isError = false) {
   const $status = document.getElementById("status");
+  $status.classList.toggle("error", isError);
   $status.innerText = message;
 };
 
 const postOverLimitMessage = function () {
   postStatusMessage(
-    `Due to the cost of API usage, I'm currently limiting requests to ${MAX_USES} per person. Your request would exceed this limit. Please contact me if you'd to discuss options.`
+    `Due to the cost of API usage, I'm currently limiting requests to ${MAX_USES} per person. Your request would exceed this limit. Please contact me if you'd to discuss options.`,
+    true
   );
 };
 
@@ -358,7 +362,7 @@ const handleFileModeAirports = function (text) {
       getCarbonFromAirports(locationArray);
     }
   } else {
-    postStatusMessage("No airports found");
+    postStatusMessage("No airports found", true);
     console.log("No airports found");
   }
 };
@@ -379,7 +383,7 @@ const handleFileSelect = function (evt) {
     } else if (fileMode === "airports") {
       handleFileModeAirports(text);
     } else {
-      postStatusMessage("Invalid File Mode");
+      postStatusMessage("Invalid File Mode", true);
       console.log("Invalid file mode");
     }
   };
@@ -429,7 +433,7 @@ const handleDirectInputSubmit = function (e) {
     const inputVal = $input.value;
     handleFileModeAirports(inputVal);
   } else {
-    postStatusMessage("Invalid File Mode");
+    postStatusMessage("Invalid File Mode", true);
     console.log("Invalid file mode");
   }
 };
@@ -441,10 +445,12 @@ const handleDestinationAirportSubmit = function (e) {
     DESTINATION_AIRPORT = inputVal;
     const $fileModeContainer = document.getElementById("file-mode-container");
     $fileModeContainer.style.display = "block";
+    postStatusMessage("Choose your list type");
   } else {
     console.error("Invalid airport code");
     postStatusMessage(
-      "Invalid airport code. Please enter a valid 3 letter airport code"
+      "Invalid airport code. Please enter a valid 3 letter airport code",
+      true
     );
   }
 };

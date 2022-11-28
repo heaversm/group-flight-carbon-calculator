@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>All-Company Event Carbon Emissions Estimate</title>
+  <link rel="stylesheet" href="https://unpkg.com/chota@latest">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -26,6 +27,7 @@
         <div id="post-load-container"></div>
       </details>
     </div>
+    <div class="pure-form">
     <div class="status-container">
       <h3>Status:</h3>
       <p id="status"></p>
@@ -34,7 +36,7 @@
     <div class="destination-airport-container">
       <h3>Destination Airport Code</h3>
       <input type="text" id="destination-airport" placeholder="JFK">
-      <button id="destination-airport-submit">Submit</button>
+      <button id="destination-airport-submit" class="button">Submit</button>
     </div>
     
     <div id="file-mode-container" style="display: none;">
@@ -92,6 +94,7 @@
         </details>
       </div>
     </div>
+  </div>
   </main>
   <script type="module" src="main.js"></script>
 </body>
