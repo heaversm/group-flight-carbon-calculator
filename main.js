@@ -197,7 +197,7 @@ async function getCO2FromAirport(airportData) {
                 true
               );
               totalCO2e = (totalCO2e * 2).toFixed(2);
-              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight">${totalCO2e}</span> kilograms of CO2 emissions round trip, non-stop, economy class`;
+              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight">${totalCO2e} kilograms of CO2</span> emissions round trip, non-stop, economy class. To see what this is equivalent to, check out <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator" target="_blank" rel="noreferrer">The EPA Greenhouse Gas Equivalency Calculator</a>.`;
               resolve(totalCO2e);
             }
           });

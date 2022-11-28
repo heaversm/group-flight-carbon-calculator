@@ -1,11 +1,15 @@
 :root {
-  --color-primary: rgb(44, 226, 138);
+  --color-primary: #ffde00;
+  /* --color-primary: rgb(44, 226, 138); */
   --color-error: rgb(255, 60, 102);
+  --color-frame: #7b16ff;
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 2em 0;
+  border: 1em solid var(--color-frame);
+  padding: 1em;
+  min-height: 100vh;
 }
 
 ul {
