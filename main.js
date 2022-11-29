@@ -7,8 +7,11 @@ import {
   MODE,
 } from "./_config.js";
 
-let numLocations;
+const MILES_CONVERSION = 0.4; //kg CO2 per mile
+const TREES_CONVERSION = 60; //kg of CO2 per tree grow for 10 years
+const WASTE_CONVERSION = 2890; //kg of CO2 per ton of waste recycled instead of thrown away
 
+let numLocations;
 let DESTINATION_AIRPORT = "JFK";
 
 let fileMode = "orgChart"; //orgChart, locations, airports
@@ -158,6 +161,17 @@ async function getClimatiqApi(airport) {
   return climatiqPromise;
 }
 
+const getCO2Equivalents = function (totalCO2e) {
+  const miles = totalCO2e / MILES_CONVERSION;
+  const trees = totalCO2e / TREES_CONVERSION;
+  const waste = (totalCO2e / WASTE_CONVERSION) * 2000; //tons to pounds
+  return {
+    miles,
+    trees,
+    waste,
+  };
+};
+
 async function getCO2FromAirport(airportData) {
   const CO2Promise = new Promise((resolve, reject) => {
     const numLocs = airportData.length;
@@ -197,7 +211,10 @@ async function getCO2FromAirport(airportData) {
                 true
               );
               totalCO2e = (totalCO2e * 2).toFixed(2);
-              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight">${totalCO2e} kilograms of CO2</span> emissions round trip, non-stop, economy class. To see what this is equivalent to, check out <a href="https://www.epa.gov/energy/greenhouse-gas-equivalencies-calculator" target="_blank" rel="noreferrer">The EPA Greenhouse Gas Equivalency Calculator</a>.`;
+              const { miles, trees, waste } = getCO2Equivalents(totalCO2e);
+              $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight text-highlight">${totalCO2e} kilograms of CO2</span> emissions round trip, non-stop, economy class. 
+              This is equivalent to <span class="primary-highlight text-highlight">${miles} driven</span> in an average car, <span class="primary-highlight text-highlight">${trees} tree seedlings</span> grown for 10 years to sequester this much carbon, or <span class="primary-highlight text-highlight">${waste} pounds of waste</span> recycled instead of thrown away.
+              <br/>Source: <a href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references" target="_blank" rel="noreferrer">EPA Greenhouse Gas Equivalency Calculator</a>.`;
               resolve(totalCO2e);
             }
           });

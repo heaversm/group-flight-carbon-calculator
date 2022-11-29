@@ -5,11 +5,19 @@
   --color-frame: #7b16ff;
 }
 
+a {
+  color: var(--color-frame);
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Poppins', sans-serif;
   border: 1em solid var(--color-frame);
   padding: 1em;
   min-height: 100vh;
+}
+
+strong {
+  font-weight: 500;
 }
 
 ul {
@@ -21,6 +29,7 @@ details {
   border: 1px solid #aaa;
   border-radius: 4px;
   padding: .5em .5em 0;
+  font-size: 14px;
 }
 
 summary {
@@ -36,6 +45,10 @@ details[open] {
 details[open] summary {
   border-bottom: 1px solid #aaa;
   margin-bottom: .5em;
+}
+
+footer {
+  margin-top: 2em;
 }
 
 .invisible-btn {
@@ -60,10 +73,26 @@ details[open] summary {
   background-color: var(--color-error);
 }
 
-.alert-highlight {
-  background-color: var(--color-error);
-  color: white;
+.title {
+  text-align: center;
+}
+
+.text-highlight {
   padding: 5px;
   margin: 0 5px;
   display: inline-block;
+}
+
+.alert-highlight {
+  background-color: var(--color-error);
+  color: white;
+
+}
+
+.primary-highlight {
+  background-color: var(--color-primary);
+}
+
+.byline {
+  margin-top: 1em;
 }
