@@ -213,7 +213,13 @@ async function getCO2FromAirport(airportData) {
               totalCO2e = (totalCO2e * 2).toFixed(2);
               const { miles, trees, waste } = getCO2Equivalents(totalCO2e);
               $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight text-highlight">${totalCO2e} kilograms of CO2</span> emissions round trip, non-stop, economy class. 
-              This is equivalent to <span class="primary-highlight text-highlight">${miles} driven</span> in an average car, <span class="primary-highlight text-highlight">${trees} tree seedlings</span> grown for 10 years to sequester this much carbon, or <span class="primary-highlight text-highlight">${waste} pounds of waste</span> recycled instead of thrown away.
+              This is equivalent to <span class="primary-highlight text-highlight">${miles.toFixed(
+                2
+              )} driven</span> in an average car, <span class="primary-highlight text-highlight">${trees.toFixed(
+                2
+              )} tree seedlings</span> grown for 10 years to sequester this much carbon, or <span class="primary-highlight text-highlight">${waste.toFixed(
+                2
+              )} pounds of waste</span> recycled instead of thrown away.
               <br/>Source: <a href="https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references" target="_blank" rel="noreferrer">EPA Greenhouse Gas Equivalency Calculator</a>.`;
               resolve(totalCO2e);
             }
