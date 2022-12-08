@@ -1,6 +1,7 @@
 import {
   CLIMATIQ_KEY,
   GEOAPIFY_KEY,
+  AIRPORT_KEY,
   ALLOWED_DISTANCE,
   MAX_AIRPORTS,
   MAX_USES,
@@ -110,17 +111,21 @@ async function getNearestAirport(geoData) {
     geoData.forEach((location, index) => {
       const coords = location.coords;
       fetch(
-        `https://aviation-edge.com/v2/public/nearby?key=748a0a-38092e&lat=${coords[0]}&lng=${coords[1]}&distance=${ALLOWED_DISTANCE}`
+        `https://airlabs.co/api/v9/nearby?api_key=${AIRPORT_KEY}&lat=${coords[0]}&lng=${coords[1]}&distance=${ALLOWED_DISTANCE}`
       )
         .then((result) => result.json())
         .then((data) => {
+          let { airports } = data.response;
+          airports.sort((a, b) => b.popularity - a.popularity);
+          console.log(airports);
+
           curLoc += 1;
 
-          if (data.length) {
-            if (data[0].codeIataCity) {
-              location.airport = data[0].codeIataCity;
+          if (airports.length) {
+            if (airports[0].city_code) {
+              location.airport = airports[0].city_code;
             } else {
-              location.airport = data[0].codeIataAirport;
+              location.airport = airports[0].iata_code;
             }
 
             foundAirports++;
@@ -215,7 +220,7 @@ async function getCO2FromAirport(airportData) {
               $carbonList.innerHTML = `The ${foundCarbon} found location(s) have a result of <span class="alert-highlight text-highlight">${totalCO2e} kilograms of CO2</span> emissions round trip, non-stop, economy class. 
               This is equivalent to <span class="primary-highlight text-highlight">${miles.toFixed(
                 2
-              )} driven</span> in an average car, <span class="primary-highlight text-highlight">${trees.toFixed(
+              )} miles driven</span> in an average car, <span class="primary-highlight text-highlight">${trees.toFixed(
                 2
               )} tree seedlings</span> grown for 10 years to sequester this much carbon, or <span class="primary-highlight text-highlight">${waste.toFixed(
                 2
